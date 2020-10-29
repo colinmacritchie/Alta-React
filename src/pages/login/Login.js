@@ -60,9 +60,9 @@ class Login extends React.Component {
         return (
             <div className="auth-page">
                 <Container>
-                    <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Login to your Web App</h3>}>
+                    <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Login</h3>}>
                         <p className="widget-auth-info">
-                            Use your email to sign in.
+                            Use your email and password to sign in.
                         </p>
                         <form onSubmit={this.doLogin}>
                             {
@@ -141,4 +141,3 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(connect(mapStateToProps)(Login));
-

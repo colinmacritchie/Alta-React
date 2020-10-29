@@ -7,75 +7,64 @@ import Widget from '../../components/Widget';
 import { registerUser, registerError } from '../../actions/register';
 import microsoft from '../../images/microsoft.png';
 import Login from '../login';
+import axios from "axios";
 
 class Register extends React.Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
     };
-
+    userData;
     constructor(props) {
-        super(props);
+    super(props);
+    this.state = {
+      signupData: {
+        name: "",
+        email: "",
+        password: "",
+        isLoading: "",
+      },
+      msg: "",
+    };
+  }
 
-        this.state = {
-            email: '',
-            password: '',
-            confirmPassword: ''
-        };
+    onChangeHandler = (e, key) => {
+      const { signupData } = this.state;
+      signupData[e.target.name] = e.target.value;
+      this.setState({ signupData });
+    };
 
-        this.doRegister = this.doRegister.bind(this);
-        this.changeEmail = this.changeEmail.bind(this);
-        this.changePassword = this.changePassword.bind(this);
-        this.changeConfirmPassword = this.changeConfirmPassword.bind(this);
-        this.checkPassword = this.checkPassword.bind(this);
-        this.isPasswordValid = this.isPasswordValid.bind(this);
-    }
-
-    changeEmail(event) {
-        this.setState({email: event.target.value});
-    }
-
-    changePassword(event) {
-        this.setState({password: event.target.value});
-    }
-
-    changeConfirmPassword(event) {
-        this.setState({confirmPassword: event.target.value});
-    }
-
-    checkPassword() {
-        if (!this.isPasswordValid()) {
-            if (!this.state.password) {
-                this.props.dispatch(registerError("Password field is empty"));
-            } else {
-                this.props.dispatch(registerError("Passwords are not equal"));
-            }
+    onSubmitHandler = (e) => {
+      e.preventDefault();
+      //this.setState({ isLoading: true });
+      axios
+        .post("http://127.0.0.1:8000/api/register", this.state.signupData)
+        .then((response) => {
+          this.setState({ iosLoading: false });
+          if (response.data.status === 200) {
+            this.setState({
+              msg: response.data.message,
+              signupData: {
+                name: "",
+                email: "",
+                password: "",
+              },
+            });
             setTimeout(() => {
-                this.props.dispatch(registerError());
-            }, 3 * 1000)
-        }
-    }
-
-    isPasswordValid() {
-       return this.state.password && this.state.password === this.state.confirmPassword;
-    }
-
-    doRegister(e) {
-        e.preventDefault();
-        if (!this.isPasswordValid()) {
-            this.checkPassword();
-        } else {
-            this.props.dispatch(registerUser({
-                creds: {
-                    email: this.state.email,
-                    password: this.state.password
-                },
-                history: this.props.history
-            }));
-        }
-    }
+              this.setState({ msg: "" });
+            }, 2000);
+          }
+          if (response.data.status === 'failed') {
+            this.setState({ msg: response.data.message });
+            setTimeout(() => {
+              this.setState({ msg: "" });
+            }, 2000);
+          }
+        });
+    };
 
     render() {
         const {from} = this.props.location.state || {from: {pathname: '/app'}}; // eslint-disable-line
+        const isLoading = this.state.isLoading;
 
         // cant access login page while logged in
         if (Login.isAuthenticated(JSON.parse(localStorage.getItem('authenticated')))) {
@@ -87,11 +76,11 @@ class Register extends React.Component {
         return (
             <div className="auth-page">
                 <Container>
-                    <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Login to your Web App</h3>}>
+                    <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Login</h3>}>
                         <p className="widget-auth-info">
                             Please fill all fields below.
                         </p>
-                        <form onSubmit={this.doRegister}>
+                        <form onSubmit={this.onSubmitHandler}>
                             {
                                 this.props.errorMessage && (
                                     <Alert className="alert-sm widget-middle-overflow rounded-0" color="danger">
@@ -100,6 +89,19 @@ class Register extends React.Component {
                                 )
                             }
                             <FormGroup className="mt">
+                                <Label for="email">Name</Label>
+                                <InputGroup className="input-group-no-border">
+                                    <InputGroupAddon addonType="prepend">
+                                        <InputGroupText>
+                                            <i className="la la-user text-white"/>
+                                        </InputGroupText>
+                                    </InputGroupAddon>
+                                    <Input id="name" className="input-transparent pl-3" value={this.state.signupData.name}
+                                           onChange={this.onChangeHandler} type="name"
+                                           required name="name" placeholder="First Name"/>
+                                </InputGroup>
+                            </FormGroup>
+                            <FormGroup className="mt">
                                 <Label for="email">Email</Label>
                                 <InputGroup className="input-group-no-border">
                                     <InputGroupAddon addonType="prepend">
@@ -107,8 +109,8 @@ class Register extends React.Component {
                                             <i className="la la-user text-white"/>
                                         </InputGroupText>
                                     </InputGroupAddon>
-                                    <Input id="email" className="input-transparent pl-3" value={this.state.email}
-                                           onChange={this.changeEmail} type="email"
+                                    <Input id="email" className="input-transparent pl-3" value={this.state.signupData.email}
+                                           onChange={this.onChangeHandler} type="email"
                                            required name="email" placeholder="Email"/>
                                 </InputGroup>
                             </FormGroup>
@@ -120,22 +122,9 @@ class Register extends React.Component {
                                             <i className="la la-lock text-white"/>
                                         </InputGroupText>
                                     </InputGroupAddon>
-                                    <Input id="password" className="input-transparent pl-3" value={this.state.password}
-                                           onChange={this.changePassword} type="password"
+                                    <Input id="password" className="input-transparent pl-3" value={this.state.signupData.password}
+                                           onChange={this.onChangeHandler} type="password"
                                            required name="password" placeholder="Password"/>
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="confirmPassword">Confirm</Label>
-                                <InputGroup className="input-group-no-border">
-                                    <InputGroupAddon addonType="prepend">
-                                        <InputGroupText>
-                                            <i className="la la-lock text-white"/>
-                                        </InputGroupText>
-                                    </InputGroupAddon>
-                                    <Input id="confirmPassword" className="input-transparent pl-3" value={this.state.confirmPassword}
-                                           onChange={this.changeConfirmPassword} onBlur={this.checkPassword} type="password"
-                                           required name="confirmPassword" placeholder="Confirm"/>
                                 </InputGroup>
                             </FormGroup>
                             <div className="bg-widget-transparent auth-widget-footer">
@@ -206,9 +195,6 @@ class Register extends React.Component {
                         {/*<Link className="d-block text-center" to="login">Enter the account</Link>*/}
                     {/*</Widget>*/}
                 </Container>
-                <footer className="auth-footer">
-                    2020 &copy; Sing App - React Admin Dashboard Template.
-                </footer>
             </div>
         );
     }
@@ -222,4 +208,3 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(connect(mapStateToProps)(Register));
-
