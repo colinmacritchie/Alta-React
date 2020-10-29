@@ -20,7 +20,7 @@ class Login extends React.Component {
         super(props);
 
         this.state = {
-            email: 'admin@flatlogic.com',
+            email: 'Alta@lodge.com',
             password: 'password',
         };
 
@@ -106,27 +106,15 @@ class Login extends React.Component {
                                   {this.props.isFetching ? 'Loading...' : 'Login'}
                                 </Button>
                                 <p className="widget-auth-info mt-4">
-                                    Don't have an account? Sign up now!
+                                    Don't have an account? Contact an Administrator.
                                 </p>
-                                <Link className="d-block text-center mb-4" to="register">Create an Account</Link>
-                                <div className="social-buttons">
-                                    <Button color="primary" className="social-button">
-                                        <i className="social-icon social-google"/>
-                                        <p className="social-text">GOOGLE</p>
-                                    </Button>
-                                    <Button color="success" className="social-button">
-                                        <i className="social-icon social-microsoft"
-                                           style={{backgroundImage: `url(${microsoft})`}}/>
-                                        <p className="social-text" style={{color: '#fff'}}>MICROSOFT</p>
-                                    </Button>
-                                </div>
+                                <Link className="d-block text-center mb-4" to="register">Contact</Link>
+                        
                             </div>
                         </form>
                     </Widget>
                 </Container>
-                <footer className="auth-footer">
-                    2020 &copy; Light Blue Template - React Admin Dashboard Template.
-                </footer>
+              
             </div>
         );
     }
