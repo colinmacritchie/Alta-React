@@ -28,10 +28,10 @@ class Static extends React.Component {
         {
           id: 1,
           picture: require('../../../images/tables/1.png'), // eslint-disable-line global-require
-          description: 'Palo Alto',
+          description: 'Steak',
           info: {
-            type: 'JPEG',
-            dimensions: '200x150',
+            type: 'November 8th, 2020 | 6:30PM',
+            
           },
           date: new Date('September 14, 2012'),
           size: '45.6 KB',
@@ -43,10 +43,10 @@ class Static extends React.Component {
         {
           id: 2,
           picture: require('../../../images/tables/2.png'), // eslint-disable-line global-require
-          description: 'The Sky',
+          description: 'Pasta',
           info: {
-            type: 'PSD',
-            dimensions: '2400x1455',
+            type: 'November 8th, 2020 | 6:30PM',
+          
           },
           date: new Date('November 14, 2012'),
           size: '15.3 MB',
@@ -58,14 +58,14 @@ class Static extends React.Component {
         {
           id: 3,
           picture: require('../../../images/tables/3.png'), // eslint-disable-line global-require
-          description: 'Down the road',
+          description: 'Chicken',
           label: {
             colorClass: 'primary',
-            text: 'INFO!',
+          
           },
           info: {
-            type: 'JPEG',
-            dimensions: '200x150',
+            type: 'November 8th, 2020 | 6:30PM',
+            
           },
           date: new Date('September 14, 2012'),
           size: '49.0 KB',
@@ -77,10 +77,10 @@ class Static extends React.Component {
         {
           id: 4,
           picture: require('../../../images/tables/4.png'), // eslint-disable-line global-require
-          description: 'The Edge',
+          description: 'Pasta',
           info: {
-            type: 'PNG',
-            dimensions: '210x160',
+            type: 'November 8th, 2020 | 6:30PM',
+           
           },
           date: new Date('September 15, 2012'),
           size: '69.1 KB',
@@ -92,10 +92,10 @@ class Static extends React.Component {
         {
           id: 5,
           picture: require('../../../images/tables/5.png'), // eslint-disable-line global-require
-          description: 'Fortress',
+          description: 'Steak',
           info: {
-            type: 'JPEG',
-            dimensions: '1452x1320',
+            type: 'November 8th, 2020 | 6:30PM',
+            
           },
           date: new Date('October 1, 2012'),
           size: '2.3 MB',
@@ -141,7 +141,7 @@ class Static extends React.Component {
   render() {
     return (
       <div className={s.root}>
-        <h2 className="page-title">Tables - <span className="fw-semi-bold">Static</span></h2>
+        <h2 className="page-title">Reservations</h2>
         <Row>
           <Col>
             <Widget
@@ -153,12 +153,12 @@ class Static extends React.Component {
               <Table striped>
                 <thead>
                   <tr className="fs-sm">
-                    <th className="hidden-sm-down">#</th>
-                    <th>Picture</th>
-                    <th>Description</th>
-                    <th className="hidden-sm-down">Info</th>
-                    <th className="hidden-sm-down">Date</th>
-                    <th className="hidden-sm-down">Size</th>
+                    <th className="hidden-sm-down">Table #</th>
+          
+                    <th>Guest Name</th>
+                    <th className="hidden-sm-down">special requests</th>
+                    <th className="hidden-sm-down">Date/time</th>
+                    <th className="hidden-sm-down">Party Size</th>
                     <th className="hidden-sm-down">Status</th>
                   </tr>
                 </thead>
@@ -211,9 +211,9 @@ class Static extends React.Component {
               </Table>
               <div className="clearfix">
                 <div className="float-right">
-                  <Button color="default" className="mr-xs" size="sm">Send to...</Button>
+                  <Button color="default" className="mr-xs" size="sm">Create</Button>
                   <UncontrolledButtonDropdown>
-                    <DropdownToggle color="inverse" className="mr-xs" size="sm" caret>Clear</DropdownToggle>
+                    <DropdownToggle color="inverse" className="mr-xs" size="sm" caret>Update</DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem>Clear</DropdownItem>
                       <DropdownItem>Move ...</DropdownItem>
@@ -223,7 +223,7 @@ class Static extends React.Component {
                     </DropdownMenu>
                   </UncontrolledButtonDropdown>
                 </div>
-                <p>Basic table with styled content</p>
+           
               </div>
             </Widget>
           </Col>
